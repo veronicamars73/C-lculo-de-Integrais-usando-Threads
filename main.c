@@ -68,7 +68,9 @@ int main (int argc, char *argv[]) {
 		if (id_funcao == 2) {
 			for(i=0;i<num_threads;i++){
 				info_obj.id_thread = i;
+				printf("Criando %d\n", i);
 				pthread_create(&threads[i], NULL, funcao_id2, &info_obj);
+				pthread_join(threads[i],NULL);
 			}
 		}else {
 			printf("Código de função inválido!\n");
