@@ -152,7 +152,8 @@ void *funcao_id2(void *argumentos) {
 		float local_b = local_a + (ifobj->num_trapezios / ifobj->num_threads)*ifobj->altura_trapezios;
 
 		//printf("%f\n", ifobj->altura_trapezios);
-		area = (funcao_geo(local_a)+funcao_geo(local_b))*ifobj->altura_trapezios/2; //f(local_a)+f(local_b)/2
+		area = (funcao_geo(local_a)+funcao_geo(local_a + ifobj->altura_trapezios))
+		*ifobj->altura_trapezios/2; //f(local_a)+f(local_a+h)/2
 		for (int i = 1; i < local_n; ++i){
 			float prox_a = local_a+i*ifobj->altura_trapezios;
 			area += (funcao_geo(prox_a)+funcao_geo(prox_a + ifobj->altura_trapezios))
@@ -172,7 +173,8 @@ void *funcao_id2(void *argumentos) {
 
 		float local_b = local_a + (ifobj->num_trapezios / ifobj->num_threads)*ifobj->altura_trapezios;
 
-		area = (funcao_geo(local_a)+funcao_geo(local_b))*ifobj->altura_trapezios/2; //f(local_a)+f(local_b)/2
+		area = (funcao_geo(local_a)+funcao_geo(local_a-ifobj->altura_trapezios))
+		*ifobj->altura_trapezios/2; //f(local_a)+f(local_a+h)/2
 		for (int i = 1; i < local_n; ++i){
 			float prox_a = local_a+i*ifobj->altura_trapezios;
 			area += (funcao_geo(prox_a)+funcao_geo(prox_a + ifobj->altura_trapezios))
