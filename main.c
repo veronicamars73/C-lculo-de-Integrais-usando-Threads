@@ -162,7 +162,7 @@ void *funcao_id2(void *argumentos) {
 		local_n = ifobj->num_trapezios / ifobj->num_threads;
 
 		// Calcula o ponto incial da thread atual
-		local_a = ifobj->altura_trapezios * ((local_n * ifobj->id_thread) + ifobj->num_trapezios % ifobj->num_threads);
+		local_a = ifobj->ponto_inicial + (local_n * ifobj->id_thread) + (ifobj->num_trapezios % ifobj->num_threads);
 
 		// Calcula a área do intervalo
 		area = (funcao_geo(local_a)+funcao_geo(local_a + ifobj->altura_trapezios)) * ifobj->altura_trapezios/2; //f(local_a)+f(local_a+h)/2
@@ -176,7 +176,7 @@ void *funcao_id2(void *argumentos) {
 		local_n = ifobj->num_trapezios / ifobj->num_threads + (ifobj->num_trapezios % ifobj->num_threads);
 		
 		// Calcula  o ponto inical da thread
-		local_a = ifobj->altura_trapezios * (((ifobj->num_trapezios / ifobj->num_threads) * ifobj->id_thread)+ifobj->num_trapezios % ifobj->num_threads);		
+		local_a = ifobj->ponto_inicial;
 		
 		// Calcula a área do intervalo
 		area = (funcao_geo(local_a)+funcao_geo(local_a + ifobj->altura_trapezios)) * ifobj->altura_trapezios/2; // f(local_a)+f(local_a+h)/2
