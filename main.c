@@ -94,7 +94,7 @@ int main (int argc, char *argv[]) {
 	}
 
 	//printf("O valor total da área é: %1.2e\n", somatorio_area);
-	printf("O valor total da área é: %lf\n", somatorio_area);
+	printf("O valor total da área é: %1.2e\n", somatorio_area);
 
 	// Libera o espaço de memória alocado dinamicamente
 	free(vetor);
@@ -139,7 +139,7 @@ void *funcao_id1(void *argumentos) {
 		}
 	}
 
-	printf("Thread %d em andamento, area calculada = %lf\n", ifobj->id_thread, area);
+	printf("Thread %d em andamento, area calculada = %lf\n\n", ifobj->id_thread, area);
 
 	// Insere área calculada pela thread no vetor dinamicamente alocado
 	vetor[index_global] = area;
@@ -191,7 +191,7 @@ void *funcao_id2(void *argumentos) {
 		}
 	}
 
-	printf("Thread %d em andamento, area calculada = %lf\n", ifobj->id_thread, area);
+	printf("Thread %d em andamento, area calculada = %lf\n\n", ifobj->id_thread, area);
 
 	// Insere área calculada pela thread no vetor dinamicamente alocado
 	vetor[index_global] = area;
