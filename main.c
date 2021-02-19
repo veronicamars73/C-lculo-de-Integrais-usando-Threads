@@ -53,10 +53,15 @@ int main (int argc, char *argv[]) {
 
 	// Atribuição dos valores das variáveis do struct com os parâmetros da linha de comando
 	info_obj.ponto_inicial = ponto_inicial;
-	info_obj.ponto_final = ponto_final * M_PI;
+	if(id_funcao == 2){
+		info_obj.ponto_final = ponto_final * acos(-1.0);
+	}else{
+		info_obj.ponto_final = ponto_final;
+	}
 	info_obj.num_threads = num_threads;
 	info_obj.num_trapezios = num_trapezios;
-	info_obj.altura_trapezios = (ponto_final - ponto_inicial) / (num_trapezios);
+	info_obj.altura_trapezios = (info_obj.ponto_final - ponto_inicial) / (num_trapezios);
+
 
 	pthread_t threads[num_threads];
 	info_obj.threads = threads;
@@ -162,7 +167,7 @@ void *funcao_id2(void *argumentos) {
 		local_n = ifobj->num_trapezios / ifobj->num_threads;
 
 		// Calcula o ponto incial da thread atual
-		local_a = ifobj->ponto_inicial + (local_n * ifobj->id_thread) + (ifobj->num_trapezios % ifobj->num_threads);
+		local_a = ifobj->ponto_inicial + (local_n * ifobj->id_thread*ifobj->altura_trapezios) + (ifobj->num_trapezios % ifobj->num_threads * ifobj->altura_trapezios);
 
 		// Calcula a área do intervalo
 		area = (funcao_geo(local_a)+funcao_geo(local_a + ifobj->altura_trapezios)) * ifobj->altura_trapezios/2; //f(local_a)+f(local_a+h)/2
