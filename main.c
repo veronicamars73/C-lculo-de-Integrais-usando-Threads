@@ -17,7 +17,6 @@ double funcao_geo(double grau_rad);
 // Variáveis globais
 int index_global = 0;
 double** vetor;
-double area;
 
 // Struct de parâmetros para as funções
 typedef struct  {
@@ -25,6 +24,7 @@ typedef struct  {
 	double local_a;
 	double altura_trapezios;
 	int num_threads;
+	double* area;
 }InfosIntegral;
  
 int main (int argc, char *argv[]) {
@@ -69,11 +69,13 @@ int main (int argc, char *argv[]) {
 		}
 		info_obj[i].altura_trapezios = altura_trapezios;
 		info_obj[i].num_threads = num_threads;
+		info_obj[i].area = (double*)malloc(sizeof(double));
 		i++;
 	}
 	// Alocação dinâmica do vetor global
 	vetor = (double**) calloc(num_threads, sizeof(double*));
 
+	//printf("aaaaa\n");
 	for (int i = 0; i < num_threads; ++i) {
 		vetor[i] = NULL;
 	}
@@ -107,6 +109,7 @@ int main (int argc, char *argv[]) {
 	
 	// Calcula o somatório das áreas
 	for(int i = 0; i < num_threads; ++i){
+		printf("%lf\n", *vetor[i]);
 		somatorio_area += *(vetor[i]);
 	}
 
@@ -116,6 +119,10 @@ int main (int argc, char *argv[]) {
 	// Libera o espaço de memória alocado dinamicamente
 	free(vetor);
 	free(info_obj);
+	// for (int i = 0; i < num_threads; ++i)
+	// {
+	// 	free(info_obj[i].area);
+	// }
 
 	return 0;  
 }
@@ -131,17 +138,19 @@ int uso(){
 void *funcao_id1(void *argumentos) {
 
 	InfosIntegral * ifobj = (InfosIntegral *) argumentos;
-	area = 0;
+	double area = 0;
 	area = (5+5)*ifobj->altura_trapezios/2; // [f(local_a)+f(local_a+h)]*(altura/2)
 	for (int i = 1; i < ifobj->local_n; ++i){
 		area += (5+5)*ifobj->altura_trapezios/2;// [f(prox_a)+f(prox_a+h)]*(altura/2)
 	}
 
 	// Insere área calculada pela thread no vetor dinamicamente alocado
+	(*ifobj->area) = area;
 	for (int i = 0; i < ifobj->num_threads; ++i) {
 		if (vetor[i]==NULL){
 
-			vetor[i] = &area;
+			vetor[i] = ifobj->area;
+			break;
 		}
 	}
 	index_global++;
@@ -160,7 +169,7 @@ void *funcao_id2(void *argumentos) {
 
 	InfosIntegral * ifobj = (InfosIntegral *) argumentos;
 	double prox_a;
-	area = 0;
+	double area = 0;
 	area += (funcao_geo(ifobj->local_a)+funcao_geo(ifobj->local_a + ifobj->altura_trapezios)) * ifobj->altura_trapezios/2; //f(local_a)+f(local_a+h)/2
 	for (int i = 1; i < ifobj->local_n; ++i){
 		prox_a = ifobj->local_a + i*ifobj->altura_trapezios;
@@ -171,11 +180,12 @@ void *funcao_id2(void *argumentos) {
 
 	// Insere área calculada pela thread no vetor dinamicamente alocado
 
+	(*ifobj->area) = area;
 	for (int i = 0; i < ifobj->num_threads; ++i) {
 		if (vetor[i]==NULL){
 
-			vetor[i] = &area;
-			area = 0;
+			vetor[i] = ifobj->area;
+			break;
 		}
 	}
 	index_global++;
