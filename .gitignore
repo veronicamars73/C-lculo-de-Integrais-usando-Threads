@@ -1,0 +1,5 @@
+# Arquivos objeto
+*.o
+
+# Arquivo executável
+programa
