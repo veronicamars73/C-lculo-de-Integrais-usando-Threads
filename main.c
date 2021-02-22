@@ -13,6 +13,8 @@ int uso();
 void *funcao_id1(void *argumentos);
 void *funcao_id2(void *argumentos);
 double funcao_geo(double grau_rad);
+void swap(double** xp, double** yp);
+void selectionSort(double** arr, int n);
 
 // Variáveis globais
 int index_global = 0;
@@ -55,6 +57,7 @@ int main (int argc, char *argv[]) {
 	altura_trapezios = (ponto_final - ponto_inicial) / (num_trapezios);
 
 	int i = 0;
+	int teste_n =0;
 	while(1){
 		if(i==num_threads){
 			break;
@@ -70,8 +73,10 @@ int main (int argc, char *argv[]) {
 		info_obj[i].altura_trapezios = altura_trapezios;
 		info_obj[i].num_threads = num_threads;
 		info_obj[i].area = (double*)malloc(sizeof(double));
+		teste_n += info_obj[i].local_n;
 		i++;
 	}
+	printf("desgraçaaaaaaaa %d\n", teste_n);
 	// Alocação dinâmica do vetor global
 	vetor = (double**) calloc(num_threads, sizeof(double*));
 
@@ -106,10 +111,23 @@ int main (int argc, char *argv[]) {
 	for (int i = 0; i < num_threads; ++i){
 		pthread_join(threads[i], NULL);
 	}
+	printf("\n\nvet desord:\n");
+	for(int i = 0; i < num_threads; ++i){
+		
+		printf("%lf\n", *vetor[i]);
+	}
+
+	selectionSort(vetor, num_threads);
+
+	printf("\n\nvet ord:\n");
+	for(int i = 0; i < num_threads; ++i){
+		
+		printf("%lf\n", *vetor[i]);
+	}
 	
 	// Calcula o somatório das áreas
 	for(int i = 0; i < num_threads; ++i){
-		printf("%lf\n", *vetor[i]);
+		//printf("%lf\n", *vetor[i]);
 		somatorio_area += *(vetor[i]);
 	}
 
@@ -193,3 +211,30 @@ void *funcao_id2(void *argumentos) {
 	pthread_exit(NULL);
 
 }
+
+void swap(double** xp, double** yp) { 
+    double* temp = *xp; 
+    *xp = *yp; 
+    *yp = temp; 
+} 
+  
+// Function to perform Selection Sort 
+void selectionSort(double** arr, int n) { 
+    int i, j, min_idx; 
+  
+    // One by one move boundary of unsorted subarray 
+    for (i = 0; i < n - 1; i++) { 
+  
+        // Find the minimum element in unsorted array 
+        min_idx = i; 
+        for (j = i + 1; j < n; j++) {
+            if (*arr[j] < *arr[min_idx]) {
+                min_idx = j; 
+            }
+        }
+  
+        // Swap the found minimum element 
+        // with the first element 
+        swap(&arr[min_idx], &arr[i]); 
+    } 
+} 
