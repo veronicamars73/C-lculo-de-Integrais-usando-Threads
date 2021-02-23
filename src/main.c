@@ -23,9 +23,9 @@ int main (int argc, char *argv[]) {
 	// Função 1: f(x) = 5 / Função 2: f(x) = sen(x*2) + cos(x*5)
 
 	// Verifica se o usuário inseriu a quantidade correta de parâmetros na linha de comando
-	// if(argc != 6){
-	// 	return uso();
-	// }
+	if(argc != 6){
+		return uso();
+	}
 
 	double ponto_inicial, ponto_final, altura_trapezios;
 	double somatorio_area = 0.0;
