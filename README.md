@@ -28,7 +28,7 @@ Para executar o programa, primeiro o compile e depois execute o arquivo gerado c
 ./<nome_programa> <ponto_inicial> <ponto_final> <num_trapezios> <num_threads> <id_funcao>
 ```
 
-> Caso use a função dois, defina como ponto final somente o double que deve ser multiplicado pelo valor de $\pi$.
+> Caso use a função dois, defina como ponto final somente o double que deve ser multiplicado pelo valor de pi.
 
 # Autoria
 
