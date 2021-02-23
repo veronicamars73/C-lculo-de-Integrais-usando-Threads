@@ -48,9 +48,8 @@ int main (int argc, char *argv[]) {
 
 	altura_trapezios = (ponto_final - ponto_inicial) / (num_trapezios);
 
-	// Laço para calcular os e atribuir os recpectivos "local_n", local_a",
+	// Laço para calcular os e atribuir os recpectivos "local_n", local_a", altura, número de threads e área de cada thread
 	int i = 0;
-	int teste_n =0;
 	while(1){
 		if(i==num_threads){
 			break;
@@ -66,7 +65,6 @@ int main (int argc, char *argv[]) {
 		info_obj[i].altura_trapezios = altura_trapezios;
 		info_obj[i].num_threads = num_threads;
 		info_obj[i].area = (double*) malloc(sizeof(double));
-		teste_n += info_obj[i].local_n;
 		i++;
 	}
 
