@@ -101,7 +101,7 @@ int main (int argc, char *argv[]) {
 		somatorio_area += *(vetor[i]);
 	}
 
-	printf("O valor total da área é: %1.2e\n", somatorio_area);
+	printf("O valor total da área da função %d, usando %d trapézios e %d threads é: %1.2e\n\n", id_funcao, num_trapezios, num_threads, somatorio_area);
 
 	// Libera o espaço de memória alocado dinamicamente
 	for (int i = 0; i < num_threads; ++i){

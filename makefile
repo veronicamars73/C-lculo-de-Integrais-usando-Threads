@@ -17,6 +17,12 @@ bin/main.o: src/main.c bin/utils.o
 main: bin/utils.o bin/main.o
 	g++ bin/*.o -Iinclude -O0 -g -Wall -pthread -o programa -lm
 
+run: all
+	./programa 0 10 120 6 1
+	./programa 0 10 200 7 1
+	./programa 0 2 120 6 2
+	./programa 0 2 200 7 2
+
 # Apaga a pasta de arquivos objetos e o executável
 clean:
 	rm -rf bin programa
